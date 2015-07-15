@@ -1,9 +1,11 @@
 package minds.warrior.com.designsupportlibrary;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -68,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void run() {
                 Toast.makeText(MainActivity.this, menuItem.getTitle() + "", Toast.LENGTH_SHORT).show();
+                if (menuItem.getItemId() == R.id.nav_first_item)
+                    startActivity(new Intent(MainActivity.this, CollapsingActivity.class));
+                else if(menuItem.getItemId() == R.id.nav_second_item)
+                    startActivity(new Intent(MainActivity.this, TabsActivity.class));
             }
         }, DRAWER_CLOSE_DELAY_MS);
         return false;
@@ -79,7 +85,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "FAB clicked", Toast.LENGTH_SHORT).show();
+                /* Setup snackbar. The first parameter is the Snackbar parent.
+                * You can do anything you want in the action onClick listener.
+                * */
+                Snackbar
+                        .make(v, "This is a snackbar", Snackbar.LENGTH_SHORT)
+                        .setAction("Snackbar action", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "Snackbar action", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
             }
         });
     }
